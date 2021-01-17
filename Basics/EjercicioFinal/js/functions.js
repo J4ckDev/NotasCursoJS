@@ -64,7 +64,7 @@ function menu() {
 
 /**
  * Función para pedir productos. Esta función recibe parámetros ilimitados pero solo
- * acepta arrays con el formato ["IdProducto", Cantidad]. Ej order(["CR001", 2], ["B002", 1]
+ * acepta arrays con el formato ["IdProducto", Cantidad]. Ej order(["CR001", 2], ["B002", 1])
  * Esto significa que el usuario está pidiendo 2 hamburguesas sencillas y una gaseosa.
  */
 
@@ -73,23 +73,28 @@ let order = (...products) => {
     if (
       typeof product === "object" &&
       product.length === 2 &&
-      (product[0].search(regexCR) === 0 ||
-        product[0].search(regexA) === 0 ||
-        product[0].search(regexB) === 0) &&
+      typeof product[0] === "string" &&
       Number.isInteger(product[1])
     ) {
-      productsOrdered.push(product);
-      console.log(
-        `El producto ${product[0]} fue adicionado correctamente a su pedido.`
-      );
+      if (
+        product[0].search(regexCR) === 0 ||
+        product[0].search(regexA) === 0 ||
+        product[0].search(regexB) === 0
+      ) {
+        productsOrdered.push(product);
+        console.log(
+          `El producto ${product[0]} fue adicionado correctamente a su pedido.`
+        );
+      } else {
+        console.log("Se recibió un producto inexistente");
+      }
     } else {
-      console.log("Se recibió un producto inexistente o un formato incorrecto");
+      console.log("Se recibió un formato incorrecto");
     }
   });
   return "Operación terminada";
 };
 
 /**
- * Función para mostrar el costo total del pedido realizado. 
+ * Función para mostrar el costo total del pedido realizado.
  */
-
