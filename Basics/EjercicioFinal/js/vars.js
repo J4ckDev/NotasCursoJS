@@ -8,7 +8,7 @@ let regexB = /^B\d{3}$/g; // Para Bebidas
 /**
  * Variable que contiene todos los productos del restaurante.
  */
-const products = {
+const allProducts = {
   CR001: {
     nombre: "Hamburguesa sencilla",
     precio: 7,
@@ -43,3 +43,4 @@ const products = {
  * Variable que contendrá la información del pedido del usuario.
  */
 let productsOrdered = [];
+
