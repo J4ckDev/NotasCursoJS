@@ -1,9 +1,9 @@
 /**
  * Expresiones regulares para los productos del restaurante. Usados para validar información.
  */
-let regexCR = /^CR\d{3}$/g; // Para Comidas Rápidas
-let regexA = /^A\d{3}$/g; // Para Adicionales
-let regexB = /^B\d{3}$/g; // Para Bebidas
+let regexCR = /^CR00(?:1|2|3)$/g; // Para Comidas Rápidas
+let regexA = /^A00(?:1|2)$/g; // Para Adicionales
+let regexB = /^B00(?:1|2)$/g; // Para Bebidas
 
 /**
  * Variable que contiene todos los productos del restaurante.
