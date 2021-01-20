@@ -4,9 +4,9 @@
 function menu() {
   const welcome = ":__-:: Bienvenidos al Restaurante JS ::-__:";
   let ids = Object.keys(allProducts); // Variable que obtiene los Ids existentes
-  let comidas = [];
-  let adicionales = [];
-  let bebidas = [];
+  const comidas = [];
+  const adicionales = [];
+  const bebidas = [];
 
   console.log(welcome);
   console.log("");
@@ -63,9 +63,10 @@ function menu() {
 }
 
 /**
- * Función para pedir productos. Esta función recibe parámetros ilimitados pero solo
- * acepta arrays con el formato ["IdProducto", Cantidad]. Ej order(["CR001", 2], ["B002", 1])
- * Esto significa que el usuario está pidiendo 2 hamburguesas sencillas y una gaseosa.
+ * Función que recibe parámetros ilimitados para pedir productos.
+ * Ej order(["CR001", 2], ["B002", 1]), Esto significa que el usuario está pidiendo 2 hamburguesas sencillas y una gaseosa.
+ * @param {Array} products Escribir arrays con el formato ["IdProducto", Cantidad] - La cantidad permitida es de máximo 999 productos.
+ * @returns {String} Operación terminada
  */
 
 let order = (...products) => {
@@ -82,10 +83,14 @@ let order = (...products) => {
           product[0].search(regexA) === 0 ||
           product[0].search(regexB) === 0
         ) {
-          productsOrdered.push(product);
-          console.log(
-            `El producto ${product[0]} fue adicionado correctamente a su pedido.`
-          );
+          if (product[1] <= 999) {            
+            productsOrdered.push(product);
+            console.log(`El producto ${product[0]} fue adicionado correctamente a su pedido.`);
+          } else {
+            product[1] = 999;
+            productsOrdered.push(product)
+            console.log(`El producto ${product[0]} fue adicionado correctamente a su pedido con el máximo permitido de 999`)
+          }
         } else {
           console.error(`Se recibió el id ${product[0]}. \n Ejecute menu() para ver de nuevo los id válidos.`);
         }
@@ -103,7 +108,7 @@ let order = (...products) => {
 /**
  * Función para agrupar productos que posiblemente estén separados. 
  * Ej. Si la variable productsOrdered = [["B001", 2],["B002", 2],["B001", 5]]. La salida de la función será
- * productsOrdered = [["B001", 7],["B002", 2]]
+ * productsOrdered = [["B001", 7],["B002", 2]] - Si la suma supera 999, se devuelve esa cantidad.
  */
 
 let groupProductsOrdered = function() {
@@ -111,16 +116,20 @@ let groupProductsOrdered = function() {
     let productsGrouped = {};
     productsOrdered.forEach(product => {
       productsGrouped[product[0]] = (productsGrouped[product[0]] || 0) + product[1];
-    });
+    }); 
     // Limpiar la variable productsOrdered
     productsOrdered = [];
 
     // Obtener los ids de los productos
     let ids = Object.keys(productsGrouped);
 
-    // Crear de nuevo el array productsOrdered con todos los productos agrupados
+    // Crear de nuevo el array productsOrdered con todos los productos agrupados y validar que la cantidad por producto no supere 999
     ids.forEach(id => {
-      productsOrdered.push([id, productsGrouped[id]]);
+      if (productsGrouped[id] <= 999) {
+        productsOrdered.push([id, productsGrouped[id]]);
+      } else {
+        productsOrdered.push([id, 999]);
+      }      
     }); 
   } else {
     console.error("No ha realizado el pedido. Use menu() para obtener el menú y use order() para agregar productos. \n Ej. order([\"CR001\", 5], [\"B002\", 5])");
@@ -142,18 +151,13 @@ let orderDetail = () => {
     const titleDescription = "Descripción";
     const titleUnitPrice = "V. Unidad";
     const titleTotalPrice = "V. Total";
-    const lenghtQuantity = titleQuantity.length;
     const lengthDescription = titleDescription.length;
-    const lengthUnitPrice = titleUnitPrice.length;
-    const lenghtTotalPrice = titleTotalPrice.length;
-    const maxWidthPrint = 74;
-    const minWidthPrint = 65;
 
     // Variables para guardar cada cosa del producto por separado
     let quantity = [];
     let description = [];
     let unitPrice = [];
-    let totalPrice = [];
+    let totalUnitPrice = [];
 
     // Agrupar productos pedidos en caso de estar distribuidos en varios arrays
     groupProductsOrdered();
@@ -163,11 +167,8 @@ let orderDetail = () => {
       quantity.push(product[1]);
       description.push(allProducts[product[0]].nombre);
       unitPrice.push(allProducts[product[0]].precio);
-      totalPrice.push(allProducts[product[0]].precio * product[1]);
+      totalUnitPrice.push(allProducts[product[0]].precio * product[1]);
     });
-
-    console.log(description);
-
     // Preparar impresión de datos
 
     // Títulos iniciales
@@ -188,13 +189,56 @@ let orderDetail = () => {
     let rightDescriptionTextSpacing = "";
     let titles = "";
 
+    // Variables para la construcción de las filas 
+    let rows = [];
+
+    // Variables usadas en la adaptación de la descripción
+    let counter = 0; // Contador para saber en que posición va del array descripción 
+    let actualLength =0; // Guarda el tamaño del producto actual del array description
+    let missingLength = 0; // Guarda el valor del espaciado faltante
+    let missingSpacing = ""; // Guarda los espacios que se adicionan dependiendo del valor de missingLength
+
+    // Construcción de la tabla responsive 
+
+    // Iniciar la creación de filas y agregar espaciado para la columna cantidad
+    quantity.forEach(item => {
+      let temp = String(item)
+      switch (temp.length) {
+        case 1:
+          rows.push(`:__-::        ${temp} :-: `)
+          break;
+
+        case 2:
+          rows.push(`:__-::       ${temp} :-: `)
+          break;
+
+        default:
+          rows.push(`:__-::      ${temp} :-: `)
+          break;
+        }
+    });
+
     if ((maxDescriptionLength - lengthDescription) > 0){      
+      // Guiones para los separadores
       for (let i = 0; i < maxDescriptionLength; i++) {
         hypens += "-" 
       }
+
+      // Agregar la descripción y el espaciado faltante
+      description.forEach(product => {
+        actualLength = product.length;        
+        missingLength = maxDescriptionLength - actualLength;
+        for (let i = 0; i < missingLength; i++) {
+          missingSpacing += " ";
+        }        
+        rows[counter] += (product + missingSpacing + " :-: ");
+        counter += 1;
+        missingSpacing = "";
+      });
+
       if ((maxDescriptionLength - lengthDescription) % 2 === 0){
         missingDescriptionSpacing = (maxDescriptionLength - lengthDescription) / 2;
-        letfDescriptionSpacing = missingDescriptionSpacing + 1
+        letfDescriptionSpacing = missingDescriptionSpacing;
         rightDescriptionSpacing = missingDescriptionSpacing;
       } else {
         missingDescriptionSpacing = Math.round((maxDescriptionLength - lengthDescription) / 2);
@@ -215,6 +259,18 @@ let orderDetail = () => {
       titles = `:__-:: ${titleQuantity} :-: ${leftDescriptionTextSpacing}${titleDescription}${rightDescriptionTextSpacing} :-: ${titleUnitPrice} :-: ${titleTotalPrice} ::-__:`;
       bottomSeparator = `:__-::----------:-:-------${hypens}---------:-:----------::-__:`;
     } else {
+      // Agregar la descripción y el espaciado faltante
+      description.forEach(product => {
+        actualLength = product.length;        
+        missingLength = lengthDescription - actualLength;
+        for (let i = 0; i < missingLength; i++) {
+          missingSpacing += " ";
+        }
+        rows[counter] += (product + missingSpacing + " :-: ");
+        counter += 1;
+        missingSpacing = "";
+      });
+
       mainTitle = ":_____________________-:: Restaurante JS ::-____________________:";
       detailTitle = ":___________________-:: Detalle del pedido ::-__________________:";
       separator = ":__-::----------:-:-------------:-:-----------:-:----------::-__:";
@@ -222,18 +278,91 @@ let orderDetail = () => {
       bottomSeparator = ":__-::----------:-:---------------------------:-:----------::-__:";
     }
 
+    // Agregar valor unidad
+    counter = 0;// Reiniciar contador
+    unitPrice.forEach(item => {
+      let temp = String(item)
+      switch (temp.length) {
+        case 1:
+          rows[counter] += `       $${item} :-: `; 
+          break;
+
+        default:
+          rows[counter] += `      $${temp} :-: `;
+          break;
+        }
+        counter += 1;
+    });
+
+    // Agregar valor total por producto y obtener el valor total del pedido
+    let totalPrice = 0;
+    counter = 0;// Reiniciar contador
+    totalUnitPrice.forEach(item => {
+      totalPrice += item;
+      let temp = String(item)
+      switch (temp.length) {
+        case 1:
+          rows[counter] += `      $${item} ::-__:`; 
+          break;
+
+        case 2:
+          rows[counter] += `     $${item} ::-__:`; 
+          break;
+
+        case 3:
+          rows[counter] += `    $${item} ::-__:`; 
+          break;
+
+        case 4:
+          rows[counter] += `   $${item} ::-__:`; 
+          break;
+
+        default:
+          rows[counter] += `  $${temp} ::-__:`;
+          break;
+        }
+        counter += 1;
+    });
+
+    // Creación de la fila que contiene el valor total de la orden
+    let totalText = `:__-::----------:-: Total a pagar $${totalPrice} :-:----------::-__:`;
+    let finalLength = rows[0].length; // Obtener el tamaño final de la fila
+    /* 
+    Reutilizando las variables missingDescriptionSpacing, letfDescriptionSpacing, rightDescriptionSpacing, 
+    leftDescriptionTextSpacing y rightDescriptionTextSpacing para formar el texto responsive y mostrar el total
+    */
+    // Limpiar variables
+    leftDescriptionTextSpacing = "";  
+    rightDescriptionTextSpacing = "";  
+
+    missingDescriptionSpacing = finalLength - totalText.length;
+
+    if (missingDescriptionSpacing % 2 === 0) {
+      letfDescriptionSpacing = rightDescriptionSpacing = missingDescriptionSpacing / 2;
+    } else {
+      missingDescriptionSpacing = Math.round(missingDescriptionSpacing / 2)
+      letfDescriptionSpacing = missingDescriptionSpacing;
+      rightDescriptionSpacing = missingDescriptionSpacing - 1;
+    }
+    for (let i = 0; i < letfDescriptionSpacing; i++) {
+      leftDescriptionTextSpacing += " ";      
+    }
+    for (let i = 0; i < rightDescriptionSpacing; i++) {
+      rightDescriptionTextSpacing += " ";      
+    }
+    totalText = `:__-::----------:-: ${leftDescriptionTextSpacing}Total a pagar $${totalPrice}${rightDescriptionTextSpacing} :-:----------::-__:`;
+    
     // Imprimir la orden
     console.log(mainTitle);
     console.log(detailTitle);
     console.log(separator);
     console.log(titles);
+    console.log(separator);     
+    rows.forEach(product => {
+      console.log(product);
+    });
     console.log(separator);
-    console.log(":__-::      999 :-: Hamburguesa sencilla :-:        $7 :-:    $9999 ::-__:");
-    console.log(":__-::      999 :-: Hamburguesa doble    :-:       $14 :-:     $999 ::-__:");
-    console.log(":__-::       99 :-: Gaseosa              :-:        $3 :-:      $99 ::-__:");
-    console.log(":__-::        9 :-: Limonada natural     :-:        $5 :-:       $9 ::-__:");
-    console.log(separator);
-    console.log(":__-::----------:-:  El valor total a pagar es $99999  :-:----------::-__:");
+    console.log(totalText);
     console.log(bottomSeparator);
   } else {
     console.error("Aún no ha realizado ningún pedido. \n Adicione productos y la cantidad a su pedido con la función order()");    
