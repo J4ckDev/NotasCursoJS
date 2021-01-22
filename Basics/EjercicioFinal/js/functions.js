@@ -69,7 +69,7 @@ function menu() {
  * @returns {String} Operación terminada
  */
 
-let order = (...products) => {
+const order = (...products) => {
   if (products.length !== 0){
     products.forEach((product) => {
       if (
@@ -83,13 +83,15 @@ let order = (...products) => {
           product[0].search(regexA) === 0 ||
           product[0].search(regexB) === 0
         ) {
-          if (product[1] <= 999) {            
+          if (product[1] > 0 && product[1] <= 999) {            
             productsOrdered.push(product);
             console.log(`El producto ${product[0]} fue adicionado correctamente a su pedido.`);
-          } else {
+          } else if (product > 999) {
             product[1] = 999;
             productsOrdered.push(product)
             console.log(`El producto ${product[0]} fue adicionado correctamente a su pedido con el máximo permitido de 999`)
+          } else {
+            console.error("No se pueden agregar cantidades negativas o iguales a cero.");
           }
         } else {
           console.error(`Se recibió el id ${product[0]}. \n Ejecute menu() para ver de nuevo los id válidos.`);
@@ -111,14 +113,15 @@ let order = (...products) => {
  * productsOrdered = [["B001", 7],["B002", 2]] - Si la suma supera 999, se devuelve esa cantidad.
  */
 
-let groupProductsOrdered = function() {
+const groupProductsOrdered = function() {
   if (productsOrdered.length !== 0) {
     let productsGrouped = {};
     productsOrdered.forEach(product => {
       productsGrouped[product[0]] = (productsGrouped[product[0]] || 0) + product[1];
     }); 
     // Limpiar la variable productsOrdered
-    productsOrdered = [];
+    let numberOfProducts = productsOrdered.length;
+    productsOrdered.splice(0, numberOfProducts);
 
     // Obtener los ids de los productos
     let ids = Object.keys(productsGrouped);
@@ -141,7 +144,7 @@ let groupProductsOrdered = function() {
  * Función para mostrar el detalle de la orden actual.
  */
 
-let orderDetail = () => {
+const orderDetail = () => {
   if (productsOrdered.length !== 0) {
     
     //Variables iniciales para procesar la información
@@ -323,6 +326,7 @@ let orderDetail = () => {
         }
         counter += 1;
     });
+    user.deuda = totalPrice;
 
     // Creación de la fila que contiene el valor total de la orden
     let totalText = `:__-::----------:-: Total a pagar $${totalPrice} :-:----------::-__:`;
@@ -370,6 +374,93 @@ let orderDetail = () => {
   return "Operación terminada";
 };
 
+// Limpieza de variables
+const cleanVars = () => {
+  user.nombre = "";
+  user.deuda = 0;
+  let numberOfProducts = productsOrdered.length;
+  productsOrdered.splice(0, numberOfProducts);
+} 
+
+// Guardar productos en el historial
+const saveHistory = (nombre) => {
+  const actualDate = new Date();
+  const productStrings = productsOrdered.map((product) => {
+    if (product[1] === 1) {
+      return `Una unidad de ${allProducts[product[0]].nombre}.`;      
+    } else {
+      return `${product[1]} unidades de ${allProducts[product[0]].nombre}.`;
+    }
+  });
+  let data = {
+    cliente: nombre,
+    productos: productStrings,
+    total: user.deuda,
+    fecha: actualDate
+  };
+  orderHistory.push(data);
+}
+
 /**
- * Función para pagar el pedido.
+ * Función para pagar la orden. * 
+ * @param {string} nombre Escribir el nombre de la persona que va a pagar la orden
+ * @param {number} montoPagado Escribir el monto para pagar el total de la orden.
  */
+
+const payOrder = function (nombre,montoPagado) {
+  if (productsOrdered.length !== 0 && user.deuda !== 0) {
+    if (typeof nombre === "string") {
+      user.nombre = nombre;
+      if (typeof montoPagado === "number") {
+        if (montoPagado < user.deuda) {
+          console.error(`${nombre}, no te alcanza para pagar el pedido.`);
+        } else if (montoPagado === user.deuda) {
+          saveHistory(nombre);
+          console.log(`${nombre} tu pago fue realizado correctamente.`);
+          cleanVars();
+        } else {
+          saveHistory(nombre);
+          console.log(`${nombre} tu pago fue realizado correctamente y tu cambio es de $${montoPagado - user.deuda}.`);
+          cleanVars();
+        }
+      } else {
+        console.error(`Escriba un monto válido, escribió un valor del tipo ${typeof monto}`);
+      }
+    } else {
+      console.error(`Escriba un nombre válido, escribió un valor del tipo ${typeof nombre}`);
+    }
+  } else {
+    console.error("Aún no ha realizado ningún pedido o no ha obtenido el detalle de la orden.");
+  } 
+};
+
+/**
+ * Mostrar el historial de las ventas realizadas.
+ */
+
+const showOrderHistory = () => {
+  if (orderHistory.length !== 0 ) {    
+    orderHistory.forEach(item => {
+      console.log(`${item.fecha} - ${item.cliente} pagó un total de $${item.total} por los siguientes productos:`);
+      item.productos.forEach(product => console.log(`- ${product}`));
+  });
+  } else {
+    console.error("Aún no se ha realizado ninguna venta.");
+  }
+}
+
+
+/**
+ * Mostrar el valor total de las ventas realizadas.
+ */
+const totalSales = function () {  
+  if (orderHistory.length !== 0) {
+    let total = 0;
+    orderHistory.forEach(item => {
+      total += item.total;
+    });
+    console.log(`El monto total recaudado por todas las ventas fue de $${total}.`);
+  } else {
+    console.error("Aún no se ha realizado ninguna venta.");
+  }
+}
