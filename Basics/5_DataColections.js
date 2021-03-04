@@ -102,17 +102,40 @@ console.log(numero.every((num) => num > 0)); // retorna true
  */
 
 let texto = "Jonathan Aldana J4ckDev";
+let cadena = "Hola Mundo";
 
-console.log(
-  texto.slice(3)
-); /* Obtener el texto que hay después de los 3 primeros caracteres */
-console.log(
-  texto.slice(3, 10)
-); /*Obtener el texto que hay después del tercer caracter y antes del décimo */
+console.log(cadena.indexOf("Hola")); // Busca la primera palabra o el primer caracter que se especifique y retorna su posición si la encuentra, sino retorna un -1
 
-console.log(
-  texto.split(" ")
-); /* Separa los datos por el caracter que se especifica y retorna un array */
+console.log(cadena.length); //Cantidad de caracteres que tiene una cadena incluyendo espacios
+
+console.log(cadena.substring(3, 10)); // Obtiene una nueva cadena con la posición de los caracteres que se le especifiquen
+
+console.log(cadena.slice(2)); // Ignora los primeros n caracteres
+console.log(cadena.slice(-2)); // Muestra los n últimos caracteres
+console.log(cadena.slice(0, -2)); // Muestra los caracteres desde el índice especificado (0) hasta antes de los últimos caracteres (2)
+
+console.log(texto.split(" ")); /* Separa los datos por el caracter que se especifica y retorna un array */
+
+let cadena2 = " Hola youtube, estamos trabajando con cadenas ";
+
+console.log(cadena2);
+console.log(cadena2.trim()); // Elimina los espacios del inicio y el final de un texto o cadena
+
+console.log(cadena.startsWith("H")); // Devuelve True o False dependiendo de sí la letra especificada está al inicio de la cadena
+console.log(cadena.startsWith("M", 5)); // En este caso revisa que el caracter especificado se encuentra en el índice especificado
+console.log(cadena.startsWith("Hola")); // También sirve con palabras
+
+console.log(cadena.endsWith("o")); // Devuelve True o False sí el último caracter especificado se encuentra al final de la cadena
+console.log(cadena.endsWith("a", 4)); // En este caso toma en cuenta los 4 primeros caracteres y mira si al final se encuentra la letra especifficada
+console.log(cadena2.endsWith("Mundo")); // También sirve con palabras
+
+console.log(cadena.includes("n")); // Funciona como IndexOf, retorna True o False
+console.log(cadena.includes("a",5)); // Se le puede especificar desde que posición comenzar a buscar
+
+let cadena3 = "string";
+
+console.log(cadena3.repeat(3)); // Repite n veces el contenido de una cadena
+console.log('Hola'.repeat(3));
 
 let regex = /\bj\w+(?:n|v)\b/gi; /* Solo hace match con palabras que empiezan 
                                     por j y terminan con n o v*/
@@ -126,6 +149,9 @@ let resultado = texto.match(
 ); /* Obtiene todas las coincidencias con la expresión 
                                         regular definida como un array de datos*/
 console.log(resultado);
+
+console.log(cadena.replace("Mundo", "Youtube")); // Cuando encuentra la coincidencia, lo reemplaza por el nuevo valor que se especifique
+console.log(cadena.replace(/o/g, "a")); // También funciona con expresiones regulares
 
 console.log(texto.toLowerCase()); // Pasa el texto a minúsculas
 console.log(texto.toUpperCase()); // Pasa el texto a mayúsculas
