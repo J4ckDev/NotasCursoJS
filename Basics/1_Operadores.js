@@ -112,6 +112,11 @@ let texto = b > a ? "verdadero!!" : "falso!!";
 
 console.log(texto);
 
+a % 2 == 0 && a % 5 == 0
+  ? (console.log(`El número ${a} es múltiplo de 2 y 5`),
+    console.log(`El número ${a} es par`))
+  : console.log(`El número ${a} no es múltiplo de 2 y/o 5`);
+
 /**
  * TYPE COERCION. Permite convertir cualquier dato en otro tipo de dato. Si una variable
  * almacena un string y otra variable almacena un número, Js puede decidir cual será la variable final.
@@ -123,14 +128,18 @@ b = 100;
 console.log(a + b);
 
 b = "100";
-console.log(a + b); /* Js concatena porque el operador + sirve para concatenar además de sumar, por lo
+console.log(
+  a + b
+); /* Js concatena porque el operador + sirve para concatenar además de sumar, por lo
                     que Js decide concatenarlo*/
 
-console.log(a - b); /* En este caso Js decide convertir el string a número, ya que el operador - se usa
+console.log(
+  a - b
+); /* En este caso Js decide convertir el string a número, ya que el operador - se usa
                     para operar números*/
 
 b = "gato";
-console.log(a - b) //En este caso se obtiene NaN, porque Js esperaba que después del - hubiera un número.
+console.log(a - b); //En este caso se obtiene NaN, porque Js esperaba que después del - hubiera un número.
 
 a = true;
 b = true;

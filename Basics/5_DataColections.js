@@ -3,9 +3,25 @@
  * Más sobre arrays en https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/colecciones_indexadas
  */
 
-let amigos = ["Pedro", "Gabriel", "Daniel", "Erick"];
+let amigos = ["Pedro", "Gabriel", "Daniel", "Erick", "Pedro"];
 
 console.log(amigos);
+
+//Se obtiene el tamaño del array
+console.log(amigos.length);
+
+// Obtener si la variable es un array
+console.log(Array.isArray(amigos)); 
+
+// Obtener la posición de la primera coincidencia del valor de un array. Si no encuentra retorna -1 
+console.log(amigos.indexOf("Pedro")); 
+
+// Obtener la posición de la última coincidencia del valor de array. Si no encuentra retorna -1 
+console.log(amigos.lastIndexOf("Pedro")); 
+
+// Convertir un array a string con datos separados por el caracter que se especifique. Si no se especifica los separa por coma.
+console.log(amigos.join())
+console.log(amigos.join(';'));
 
 // Agregar elementos al array
 let dato = amigos.push("David", "Luisa"); //Si se iguala a una variable, retorna el nuevo tamaño del array
@@ -114,7 +130,9 @@ console.log(cadena.slice(2)); // Ignora los primeros n caracteres
 console.log(cadena.slice(-2)); // Muestra los n últimos caracteres
 console.log(cadena.slice(0, -2)); // Muestra los caracteres desde el índice especificado (0) hasta antes de los últimos caracteres (2)
 
-console.log(texto.split(" ")); /* Separa los datos por el caracter que se especifica y retorna un array */
+console.log(
+  texto.split(" ")
+); /* Separa los datos por el caracter que se especifica y retorna un array */
 
 let cadena2 = " Hola youtube, estamos trabajando con cadenas ";
 
@@ -130,12 +148,12 @@ console.log(cadena.endsWith("a", 4)); // En este caso toma en cuenta los 4 prime
 console.log(cadena2.endsWith("Mundo")); // También sirve con palabras
 
 console.log(cadena.includes("n")); // Funciona como IndexOf, retorna True o False
-console.log(cadena.includes("a",5)); // Se le puede especificar desde que posición comenzar a buscar
+console.log(cadena.includes("a", 5)); // Se le puede especificar desde que posición comenzar a buscar
 
 let cadena3 = "string";
 
 console.log(cadena3.repeat(3)); // Repite n veces el contenido de una cadena
-console.log('Hola'.repeat(3));
+console.log("Hola".repeat(3));
 
 let regex = /\bj\w+(?:n|v)\b/gi; /* Solo hace match con palabras que empiezan 
                                     por j y terminan con n o v*/
@@ -190,10 +208,43 @@ console.log(datoMath);
 datoMath = Math.PI; // valor de Pi
 console.log(datoMath);
 
+datoMath = Math.E; // valor de Euler
+console.log(datoMath);
+
 datoMath = Math.max(50, 8, 9, 74); // Valor más alto
 console.log(datoMath);
 
 datoMath = Math.min(50, 8, 9, 74); // valor más pequeño
+console.log(datoMath);
+
+datoMath = Math.abs(-5); // Valor absoluto
+console.log(datoMath);
+
+datoMath = Math.ceil(5.8213); // Redondea hacia arriba
+console.log(datoMath);
+
+datoMath = Math.floor(5.8213); // Redondea hacia abajo
+console.log(datoMath);
+
+datoMath = Math.pow(5, 3); // Devuelve la potencia de un número.
+console.log(datoMath);
+
+datoMath = Math.round(5.43); // Redondea hacia el entero más cercano
+console.log(datoMath);
+
+// Obtener un valor aleatorio entre un rango
+// Math.round(Math.random() * (max - min)+min);
+datoMath = Math.round(Math.random() * (15 - 5) + 5); // Números aleatorios entre 5 y 15
+console.log(datoMath);
+
+datoMath = Math.sign(5.8213); // indica si el parámetro es positivo, negativo o cero.
+console.log(datoMath);
+datoMath = Math.sign(-5.8213); // indica si el parámetro es positivo, negativo o cero.
+console.log(datoMath);
+datoMath = Math.sign(0); // indica si el parámetro es positivo, negativo o cero.
+console.log(datoMath);
+
+datoMath = Math.sqrt(5.8213); // Devuelve la raíz cuadrada de un número positivo
 console.log(datoMath);
 
 let datoDate = new Date();

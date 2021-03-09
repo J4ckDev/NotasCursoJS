@@ -2,6 +2,10 @@
  *  CONDICIONALES
  */
 
+// Condicional Simple. Una condición y única posibilidad
+let num = 5;
+if (num > 0) console.log(`${num} es mayor que cero`);
+
 /**
  * Invitación a una Fiesta
  * Si eres mayor de edad y menor de 65 años puedes venir a la fiesta;
