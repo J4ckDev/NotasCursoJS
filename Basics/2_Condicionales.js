@@ -27,10 +27,6 @@ if (edad >= 18 && edad < 65) {
 }
 
 /**
- * CONDICIONALES MÚLTIPLES
- */
-
-/**
  * ¿Qué personaje de DragonBall Z eres?
  *
  * Si eres fuerte y comelón eres Gokú.
