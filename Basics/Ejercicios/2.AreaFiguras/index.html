@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Area de Figuras Geométricas</title>
+    <script>
+      MathJax = {
+        loader: {
+          load: ["input/asciimath", "output/chtml"],
+        },
+      };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      type="text/javascript"
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+  </head>
+  <body>
+    <h1>Ejercicio - Area de figuras geométricas</h1>
+    <p>
+      Escribe un programa que pueda calcular el área de 3 figuras geométricas,
+      triángulo, rectángulo y círculo. En primer lugar pregunta de qué figura se
+      quiere calcular el área y después, solicita los datos que necesites para
+      calcularlo. Las formulas de las figuras geométricas son:
+      <ul>
+          <li style="margin-top:10px;"><strong>Triángulo: </strong>`b*h/2`</li>
+          <li style="margin-top:10px;"><strong>Rectángulo: </strong>`b*h`</li>
+          <li style="margin-top:10px;"><strong>Círculo: </strong>`π * r^2`</li>
+      </ul>
+    </p>
+    <h2>Resultado</h2>
+    <div id="Out"></div>
+    <script src="./app.js"></script>
+  </body>
+</html>
