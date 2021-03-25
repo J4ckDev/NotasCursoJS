@@ -7,6 +7,6 @@ while (DNI.toString().length > 8 || DNI < 0 || DNI == Number.NaN){// || DNI <= 0
     DNI = parseInt(prompt('Ingresa tu DNI (Max 8 digitos)'));
 }
 
-posicion = Math.round(DNI % 23);
+posicion = DNI % 23;
 
 dataOut.innerHTML = `<p>La letra <strong>${letras[posicion]}</strong> corresponde a su DNI ${DNI}</p>`;
