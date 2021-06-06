@@ -118,6 +118,23 @@ a % 2 == 0 && a % 5 == 0
   : console.log(`El número ${a} no es múltiplo de 2 y/o 5`);
 
 /**
+ * Nullish coalescing. Es un operador lógico que regresa lo del lado derecho cuando la variable
+ * es nula o indefinida y lo del lado izquierdo cuando no es nula
+ */
+
+let valorNulo = null;
+let valorIndefinido = undefined;
+
+console.log(valorNulo ?? "Es nulo");
+console.log(valorIndefinido ?? "Es indefinido");
+
+valorNulo = "Ya no soy nulo";
+console.log(valorNulo ?? "Es nulo");
+
+valorIndefinido = "Ya no soy indefinido";
+console.log(valorIndefinido ?? "Es indefinido");
+
+/**
  * TYPE COERCION. Permite convertir cualquier dato en otro tipo de dato. Si una variable
  * almacena un string y otra variable almacena un número, Js puede decidir cual será la variable final.
  */

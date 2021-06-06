@@ -11,17 +11,17 @@ console.log(amigos);
 console.log(amigos.length);
 
 // Obtener si la variable es un array
-console.log(Array.isArray(amigos)); 
+console.log(Array.isArray(amigos));
 
-// Obtener la posición de la primera coincidencia del valor de un array. Si no encuentra retorna -1 
-console.log(amigos.indexOf("Pedro")); 
+// Obtener la posición de la primera coincidencia del valor de un array. Si no encuentra retorna -1
+console.log(amigos.indexOf("Pedro"));
 
-// Obtener la posición de la última coincidencia del valor de array. Si no encuentra retorna -1 
-console.log(amigos.lastIndexOf("Pedro")); 
+// Obtener la posición de la última coincidencia del valor de array. Si no encuentra retorna -1
+console.log(amigos.lastIndexOf("Pedro"));
 
 // Convertir un array a string con datos separados por el caracter que se especifique. Si no se especifica los separa por coma.
-console.log(amigos.join())
-console.log(amigos.join(';'));
+console.log(amigos.join());
+console.log(amigos.join(";"));
 
 // Agregar elementos al array
 let dato = amigos.push("David", "Luisa"); //Si se iguala a una variable, retorna el nuevo tamaño del array
@@ -61,7 +61,7 @@ console.log(amigos);
 amigos.reverse();
 console.log(amigos);
 
-// Foreach necesita como parámetro una función. Puede ser una anónima o una función flecha.
+// Foreach necesita como parámetro una función (Callback). Puede ser una anónima o una función flecha.
 
 console.log("----Con una función flecha----");
 amigos.forEach((element) => {
@@ -111,6 +111,51 @@ console.log(numero.some((num) => num < 0)); // retorna false
 
 console.log(numero.every((num) => num > 400)); // retorna false
 console.log(numero.every((num) => num > 0)); // retorna true
+
+// sort. Por si solo ordena los números de menor a mayor a partir del codigo Unicode pero con un truco sirve para ordenar de los números como se debe
+
+console.log(numero.sort()); // Menor a mayor por unicode
+console.log(numero.sort((a, b) => b - a)); // Mayor a menor
+console.log(numero.sort((a, b) => a - b)); // Menor a mayor
+
+// reduce. Todos los elementos se reducen a un solo valor. Recibe 2 parámetros como en sort
+
+console.log(numero.reduce((a, b) => a + b));
+console.log(numero.reduce((a, b) => a * b));
+
+const users = [
+  {
+    name: "user 1",
+    online: false,
+  },
+  {
+    name: "user 2",
+    online: true,
+  },
+  {
+    name: "user 3",
+    online: true,
+  },
+  {
+    name: "user 4",
+    online: false,
+  },
+  {
+    name: "user 5",
+    online: true,
+  },
+  {
+    name: "user 6",
+    online: true,
+  },
+];
+
+const usersOnline = users.reduce((count, user) => {
+  if (user.online) count++;
+  return count;
+}, 0);
+
+console.log(`Hay ${usersOnline} usuarios conectados.`);
 
 /**
  * STRINGS
@@ -162,9 +207,8 @@ console.log(
 ); /* Search usa una expresión regular para encontrar la primera coincidencia y retornar 
       la posición donde empieza la coincidencia. Si no encuentra coincidencias retorna -1 */
 
-let resultado = texto.match(
-  regex
-); /* Obtiene todas las coincidencias con la expresión 
+let resultado =
+  texto.match(regex); /* Obtiene todas las coincidencias con la expresión 
                                         regular definida como un array de datos*/
 console.log(resultado);
 
@@ -173,6 +217,11 @@ console.log(cadena.replace(/o/g, "a")); // También funciona con expresiones reg
 
 console.log(texto.toLowerCase()); // Pasa el texto a minúsculas
 console.log(texto.toUpperCase()); // Pasa el texto a mayúsculas
+
+console.log(
+  Array.from(cadena3)
+); /* Convierte cualquier objeto iterable en un array, en este ejemplo
+se aplicó a una cadena. Tiene más utilidad cuando se trabaja con los Nodos del DOM*/
 
 /**
  * OBJETOS
@@ -185,6 +234,18 @@ let alumno = {
   ciudad: "Lima",
 };
 
+console.log("Keys de alumno");
+
+for (const key in alumno) {
+  console.log(key);
+}
+
+console.log("Datos del alumno");
+
+for (const key in alumno) {
+  console.log(alumno[key]);
+}
+
 console.log(alumno); // ver los valores con su identificador
 console.log(alumno.nombre); // Acceder a un atributo
 console.log(alumno["edad"]); // Otra forma de acceder a un atributo
@@ -194,6 +255,52 @@ console.log(datosObj); // Imprime un array solo con los valores
 
 let identificadores = Object.keys(alumno); // Obtener los identificadores del objeto
 console.log(identificadores);
+
+// Operador optional chaining operator (?) en objetos. Sirve para ver la existencia de alguna propiedad en un objeto.
+
+let userData = {
+  name: "Juan",
+  age: 20,
+  location: {
+    country: "Colombia",
+    city: {
+      name: "Bogotá",
+      zipcode: "123456",
+    },
+  },
+};
+
+let zipcode = userData.location.city.zipcode;
+console.log(`Código postal: ${zipcode}`);
+
+userData = {
+  name: "Daniel",
+  age: 25,
+  location: {
+    country: "Italia",
+  },
+};
+
+//zipcode = userData.location.city.zipcode; // Sacará error
+//La linea anterior se soluciona con el operador ?
+zipcode =userData?.location?.city?.zipcode; /* En lugar de un error y terminación en la ejecución 
+del programa, se obtiene un undefined por lo que a partir de una condición se evitarían errores*/
+console.log(`Código postal: ${zipcode ?? "No se encontró"}`);
+
+userData = {
+  name: "Tania",
+  age: 28,
+  location: {
+    country: "Venezuela",
+    city: {
+      name: "Caracas",
+      zipcode: "12344",
+    },
+  },
+};
+
+zipcode = userData?.location?.city?.zipcode;
+console.log(`Código postal: ${zipcode ?? "No se encontró"}`);
 
 /**
  * MATH Y DATE, valores matemáticos y de fecha respectivamente.
