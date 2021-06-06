@@ -227,12 +227,38 @@ se aplicó a una cadena. Tiene más utilidad cuando se trabaja con los Nodos del
  * OBJETOS
  */
 
+const name = "Luisa"
+const surname = "Ortiz"
+const age = 23
+const ubication = {
+  city: "Bogotá",
+  country: "Colombia"
+}
+
+/* Construir un objeto a partir de variables y que los nombres de las variables sean los ID del objeto 
+y el contenido de las variables el valor asociado a ese ID*/
+
+const newUser = {
+  name,
+  surname,
+  age,
+  ubication
+}
+console.log(newUser)
+
+// Otra forma de construir un objeto y además se pueden agregar métodos
+
 let alumno = {
   nombre: "John",
   edad: 21,
   suscriptor: false,
   ciudad: "Lima",
+  presentarse() {
+    console.log(`Hola, me llamo ${this.nombre} y tengo ${this.edad}.`)
+  }
 };
+
+alumno.presentarse();
 
 console.log("Keys de alumno");
 
