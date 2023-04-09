@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .form {
+        width: 100%;
+        text-align: center;
+    }
+
+    .p-8px {
+        padding: 4px 8px;
+    }
+
+    .bbox {
+        box-sizing: border-box;
+    }
+
+    .form__field {
+        width: 100%;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .form__field>input {
+        margin: 0px 8px;
+    }
+
+    .form>button {
+        width: 100%;
+    }
+</style>
+
+<body>
+    <h1 id="title" class="p-8px bbox">Forms intro</h1>
+    <p class="p-8px">En esta introducción el ejemplo consiste en validar que los campos del formulario están
+        completamente llenos y el formulario se puede enviar.</p>
+    <form action="#" method="get" class="form p-8px bbox" id="form">
+        <div class="form__field">
+            <label for="name">Name:</label>
+            <input id="name" name="name" type="text">
+        </div>
+        <div class="form__field">
+            <label for="email">Email:</label>
+            <input id="email" name="email" type="email">
+        </div>
+        <div id="gender" class="form__field">
+            <label for="male">Male</label>
+            <input id="male" name="gender" value="male" type="radio">
+            <label for="gender">Female</label>
+            <input id="female" name="gender" value="female" type="radio">
+        </div>
+        <div class="form__field">
+            <label for="terms">I accept the terms and conditions</label>
+            <input id="terms" name="terms" type="checkbox">
+        </div>
+        <button type="submit" id="submitBtn" disabled>Send</button>
+    </form>
+    <script src="./app.js"></script>
+</body>
+
+</html>
