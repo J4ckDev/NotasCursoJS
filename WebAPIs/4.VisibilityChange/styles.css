@@ -1,0 +1,13 @@
+body {
+    margin: 0;
+    background-color: #2f3238;
+    color: #ccc;
+  }
+  
+  .video {
+    width: 100vw;
+  }
+
+  p, pre {
+    display: inline;
+  }

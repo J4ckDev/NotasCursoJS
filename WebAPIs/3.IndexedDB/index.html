@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>IndexedDB</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <h1 class="p24">IndexedDB Introducción</h1>
+    <p class="p24">Es una forma más avanzada de almacenar datos locales en el navegador. La principal diferencia
+        de esta WebAPI de HTML5 con localStorage, es que esta permite almacenar gran cantidad de datos
+        como un perfil entero de un usuario. Otra diferencia es que IndexedDB permite almacenar objetos
+        con estructuras complejas, y las llaves pueden ser propiedades de esos objetos. Otra característica
+        es que es asíncrona y usa eventos DOM para nbotificar cuando los resultados están disponibles. IndexedDB es
+        orientada a objetos y es NoSQL. <a href="https://developer.mozilla.org/es/docs/Web/API/IndexedDB_API"
+            target="_blank" rel="noopener noreferrer">Más info aquí.</a>
+    </p>
+    <h2 class="p24">Pasos para crear una BD</h2>
+    <ul>
+        <li>Crear la base de datos a través del objeto indexedDB y el método
+            <pre>open()</pre>.
+        </li>
+        <li>Comprobar si la base de datos existe o tiene que ser creada a través del método
+            <pre>onupgradeneeded()</pre>.
+        </li>
+        <li>Crear almacén de objetos con el método
+            <pre>createObjectStore()</pre>.
+        </li>
+        <li>Escuchar los eventos de éxito y de error con los métodos
+            <pre>onsuccess()</pre> y
+            <pre>onerror()</pre> respectivamente.
+        </li>
+    </ul>
+    <h2 class="p24">Notas adicionales</h2>
+    <ul>
+        <li>Si aparece el error en consola
+            <pre>DataError: Failed to store record in an IDBObjectStore</pre>, esto
+            se debe a que falta definir las llaves al momento de adicionar información.
+            Una solución es definir que por defecto las llaves sean autoincrementales al momento de
+            crear el alamacen de datos con el método
+            <pre>createObjectStore('almacen',{autoIncrement: true})</pre>.
+        </li>
+    </ul>
+    <form id="form" class="form">
+        <label for="task">Task</label>
+        <input type="text" name="task">
+        <select name="priority">
+            <option value="low">Low</option>
+            <option value="normal">Normal</option>
+            <option value="high">High</option>
+        </select>
+        <!-- Se adiciona un atributo personalizado data-*, más info en https://developer.mozilla.org/es/docs/Web/HTML/Global_attributes/data-%2A#compatibilidad_con_navegadores-->
+        <button class="button" name="button" data-action="add">Add Task</button>
+    </form>
+    <div id="tasks" class="p36"></div>
+    <script src="./app.js"></script>
+</body>
+
+</html>

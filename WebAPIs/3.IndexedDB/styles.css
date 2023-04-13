@@ -1,0 +1,46 @@
+body {
+  margin: 0;
+  background-color: #2f3238;
+  font-family: sans-serif;
+  color: #ccc;
+  user-select: none;
+}
+
+.form {
+  width: 100%;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.button {
+  background: rgb(255, 168, 136);
+  border: none;
+  padding: 0.2rem 0.8rem;
+  border-radius: 15px;
+  color: #171717;
+  cursor: pointer;
+  margin: 1rem 0;
+}
+
+.p24 {
+  padding: 8px 24px;
+}
+
+.p36 {
+  padding: 8px 36px;
+}
+
+pre {
+  display: inline;
+}
+
+a {
+  color: #5bbbee;
+}
+
+#tasks {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
+  align-items: center;
+}
